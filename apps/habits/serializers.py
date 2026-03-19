@@ -1,3 +1,4 @@
+# apps/habits/serializers.py
 from rest_framework import serializers
 from .models import Habit
 from .validators import HabitValidator
@@ -41,4 +42,6 @@ class HabitPublicSerializer(serializers.ModelSerializer):
             'id', 'owner_username', 'place', 'time', 'action',
             'is_pleasant', 'periodicity', 'duration_sec', 'created_at'
         ]
-        read_only_fields = '__all__'
+        # read_only_fields должно быть списком или кортежем
+        read_only_fields = ['id', 'owner_username', 'place', 'time', 'action',
+                            'is_pleasant', 'periodicity', 'duration_sec', 'created_at']
