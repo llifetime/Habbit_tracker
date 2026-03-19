@@ -14,8 +14,8 @@
 
 ## Технологии
 
-- Python 3.11
-- Django 4.2
+- Python 3.14
+- Django 6.0
 - Django REST Framework
 - PostgreSQL
 - Redis (брокер Celery)
