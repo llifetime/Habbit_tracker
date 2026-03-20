@@ -1,0 +1,34 @@
+# .gitignore
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+migrations/__pycache__/
+*/migrations/__pycache__/
+*/*/migrations/__pycache__/
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual Environment
+venv/
+.venv/
+env/
+.env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Database
+*.sqlite3
+*.db
+
+# Environment variables
+.env
+.env.local
