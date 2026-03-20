@@ -7,7 +7,10 @@ from .validators import HabitValidator
 class HabitSerializer(serializers.ModelSerializer):
     """Сериализатор для привычек"""
 
-    owner_username = serializers.CharField(source='owner.username', read_only=True)
+    owner_username = serializers.CharField(
+        source='owner.username',
+        read_only=True
+    )
 
     class Meta:
         model = Habit
@@ -21,11 +24,13 @@ class HabitSerializer(serializers.ModelSerializer):
     def validate_linked_habit(self, value):
         """Дополнительная проверка связанной привычки"""
         if value and value.owner != self.context['request'].user:
-            raise serializers.ValidationError("Можно связывать только свои привычки")
+            raise serializers.ValidationError(
+                "Можно связывать только свои привычки"
+            )
         return value
 
     def validate(self, attrs):
-        # Применяем кастомный валидатор
+        """Применяем кастомный валидатор"""
         validator = HabitValidator()
         validator(attrs)
         return attrs
@@ -34,7 +39,10 @@ class HabitSerializer(serializers.ModelSerializer):
 class HabitPublicSerializer(serializers.ModelSerializer):
     """Сериализатор для публичных привычек (только чтение)"""
 
-    owner_username = serializers.CharField(source='owner.username', read_only=True)
+    owner_username = serializers.CharField(
+        source='owner.username',
+        read_only=True
+    )
 
     class Meta:
         model = Habit
@@ -42,6 +50,8 @@ class HabitPublicSerializer(serializers.ModelSerializer):
             'id', 'owner_username', 'place', 'time', 'action',
             'is_pleasant', 'periodicity', 'duration_sec', 'created_at'
         ]
-        # read_only_fields должно быть списком или кортежем
-        read_only_fields = ['id', 'owner_username', 'place', 'time', 'action',
-                            'is_pleasant', 'periodicity', 'duration_sec', 'created_at']
+        # read_only_fields должно быть списком, а не строкой
+        read_only_fields = [
+            'id', 'owner_username', 'place', 'time', 'action',
+            'is_pleasant', 'periodicity', 'duration_sec', 'created_at'
+        ]

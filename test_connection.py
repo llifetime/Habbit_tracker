@@ -1,4 +1,5 @@
 # test_connection.py
+from django.db import connection
 import os
 import django
 from django.conf import settings
@@ -6,7 +7,6 @@ from django.conf import settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
-from django.db import connection
 
 try:
     with connection.cursor() as cursor:

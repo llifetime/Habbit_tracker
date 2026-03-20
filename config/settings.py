@@ -1,9 +1,9 @@
 # config/settings.py
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,13 +19,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Third party apps
     'rest_framework',
     'corsheaders',
     'drf_yasg',
-
-    # Local apps
     'apps.users',
     'apps.habits',
 ]
@@ -61,7 +57,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# PostgreSQL Database (используем переменные окружения)
+# PostgreSQL Database (для обычной работы)
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
@@ -98,12 +94,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -116,10 +108,44 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
 }
 
-# CORS settings
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
+
+# ============================================
+# НАСТРОЙКИ ДЛЯ ТЕСТИРОВАНИЯ
+# ============================================
+
+# Автоматически переключаемся на SQLite при запуске тестов
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    # Используем SQLite in-memory для тестов
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
+
+
+    # Отключаем миграции для ускорения тестов
+    class DisableMigrations:
+        def __contains__(self, item):
+            return True
+
+        def __getitem__(self, item):
+            return None
+
+
+    MIGRATION_MODULES = DisableMigrations()
+
+    # Упрощаем хеширование паролей для ускорения тестов
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    ]
+
+    print("=" * 60)
+    print("🧪 TEST MODE: Using SQLite in-memory database")
+    print("=" * 60)
