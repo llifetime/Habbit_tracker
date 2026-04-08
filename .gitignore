@@ -1,23 +1,20 @@
-# .gitignore
-__pycache__/
-*/__pycache__/
-*/*/__pycache__/
-*/*/*/__pycache__/
-migrations/__pycache__/
-*/migrations/__pycache__/
-*/*/migrations/__pycache__/
-
 # Python
-*.pyc
-*.pyo
-*.pyd
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
 .Python
-
-# Virtual Environment
 venv/
 .venv/
 env/
-.env/
+ENV/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+/static/
+/media/
 
 # IDE
 .idea/
@@ -25,10 +22,21 @@ env/
 *.swp
 *.swo
 
-# Database
-*.sqlite3
-*.db
-
-# Environment variables
+# Environment
 .env
 .env.local
+.env.prod
+
+# Docker
+*.pid
+
+# Coverage
+.coverage
+htmlcov/
+
+# Celery
+celerybeat-schedule
+*.pid
+
+# PostgreSQL
+*.pgdata
