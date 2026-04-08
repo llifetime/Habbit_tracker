@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+/static/
+/media/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.prod
+
+# Docker
+*.pid
+
+# Coverage
+.coverage
+htmlcov/
+
+# Celery
+celerybeat-schedule
+*.pid
+
+# PostgreSQL
+*.pgdata

@@ -1,8 +1,9 @@
-from rest_framework import viewsets, status
+# apps/habits/views.py
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from django.db.models import Q
+
 from .models import Habit
 from .serializers import HabitSerializer, HabitPublicSerializer
 from .paginations import HabitPagination
@@ -33,7 +34,6 @@ class HabitViewSet(viewsets.ModelViewSet):
         if self.action == 'public':
             return Habit.objects.filter(is_public=True)
 
-        # Для остальных действий - только привычки текущего пользователя
         return Habit.objects.filter(owner=self.request.user)
 
     def get_serializer_class(self):

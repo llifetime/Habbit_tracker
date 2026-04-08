@@ -1,3 +1,4 @@
+# apps/habits/services.py
 import requests
 import logging
 from django.conf import settings
@@ -37,11 +38,11 @@ class TelegramService:
 ⏰ <b>Время:</b> {habit.time.strftime('%H:%M')}
 📝 <b>Действие:</b> {habit.action}
 ⏱ <b>Длительность:</b> {habit.duration_sec} сек.
-
 """
         if habit.reward:
             message += f"🎁 <b>Вознаграждение:</b> {habit.reward}"
         elif habit.linked_habit:
-            message += f"🎯 <b>После выполнения:</b> {habit.linked_habit.action}"
+            linked_action = habit.linked_habit.action
+            message += f"🎯 <b>После выполнения:</b> {linked_action}"
 
         return self.send_message(user.telegram_chat_id, message)
